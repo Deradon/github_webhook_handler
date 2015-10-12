@@ -13,3 +13,29 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+group :development, :test do
+  gem "rspec-rails"
+  gem "guard"
+  gem "guard-rspec"
+  gem "guard-zeus"
+  gem "guard-bundler"
+
+  gem "factory_girl_rails"
+
+  gem "rb-fsevent"
+  gem "ffaker"
+  gem "pry"
+end
+
+group :development do
+  gem "better_errors"
+  gem "awesome_print"
+  gem "brakeman"
+end
+
+group :test do
+  gem "vcr"
+  gem "webmock"
+  gem "capybara"
+  gem "simplecov", require: false
+end
