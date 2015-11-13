@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151012164809) do
+ActiveRecord::Schema.define(version: 20151012164631) do
 
   create_table "github_webhook_handler_events", force: :cascade do |t|
     t.string   "type"
+    t.string   "http_x_github_event"
     t.text     "payload"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
 end

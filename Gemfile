@@ -15,6 +15,7 @@ gemspec
 
 group :development, :test do
   gem "rspec-rails"
+  gem "rspec-its"
   gem "guard"
   gem "guard-rspec"
   gem "guard-zeus"
