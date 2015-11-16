@@ -10,7 +10,7 @@ module GithubWebhookHandler
     #
     # TODO: Only respond to :json
     def create
-      @event = Event.new({
+      @event = Event.class_for(http_x_github_event).new({
         payload: event_params,
         http_x_github_event: http_x_github_event
       })

@@ -7,6 +7,9 @@ module GithubWebhookHandler
 
     setup_for_github_webhook_handler
 
+    let(:json_path) { "spec/fixtures/github_events/issues.json" }
+    let(:params) { JSON.parse(File.read(json_path)) }
+
     context "with valid headers" do
       it { is_expected.to have_http_status(:created) }
     end
