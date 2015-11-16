@@ -1,4 +1,3 @@
-require_dependency "github_webhook_handler/event/base"
 # = IssuesEvent
 #
 # Triggered when an issue is assigned, unassigned, labeled, unlabeled,
