@@ -1,8 +1,27 @@
 # TODO: specs
 class GithubSignature
-  def initialize(payload:, secret_token:, signature:)
-    @payload = payload.to_json
-    @secret_token = secret_token
+  HMAC_DIGEST = OpenSSL::Digest::Digest.new('sha1')
+
+  class << self
+    def from_request(request)
+      new(
+        payload_body: payload_from_request(request),
+        secret: "valid", # TODO: move to config
+        signature: request.headers["HTTP_X_HUB_SIGNATURE"]
+      )
+    end
+
+    private
+
+    def payload_from_request(request)
+      request.body.rewind
+      request.body.read
+    end
+  end
+
+  def initialize(payload_body:, secret:, signature:)
+    @payload_body = payload_body
+    @secret = secret
     @signature = signature.to_s
   end
 
@@ -16,17 +35,13 @@ class GithubSignature
 
   private
 
-  attr_reader :payload, :secret_token, :signature
+  attr_reader :payload_body, :secret, :signature
 
   def expected_signature
     "sha1=#{hexdigest}"
   end
 
   def hexdigest
-    OpenSSL::HMAC.hexdigest(sha1, secret_token, payload)
-  end
-
-  def sha1
-    OpenSSL::Digest.new('sha1')
+    OpenSSL::HMAC.hexdigest(HMAC_DIGEST, secret, payload_body)
   end
 end

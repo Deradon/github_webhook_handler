@@ -5,7 +5,7 @@ module GithubWebhookHandler
     end
 
     def call_endpoint
-      post(endpoint, params, header)
+      post(endpoint, params.to_json, header)
     end
 
     private
@@ -30,7 +30,12 @@ module GithubWebhookHandler
             "HTTP_X_HUB_SIGNATURE" => signature_for(params),
           }.merge(json_header)
         }
-        let(:json_header) { { "ACCEPT" => "application/json" } }
+        let(:json_header) {
+          {
+            "ACCEPT" => "application/json",
+            "CONTENT_TYPE" => "application/json"
+          }
+        }
       end
     end
   end

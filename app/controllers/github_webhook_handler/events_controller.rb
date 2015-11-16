@@ -42,20 +42,12 @@ module GithubWebhookHandler
       request.headers["HTTP_X_GITHUB_EVENT"]
     end
 
-    def http_x_hub_signature
-      request.headers["HTTP_X_HUB_SIGNATURE"]
-    end
-
     def render_bad_request(message)
       render text: message, status: :bad_request
     end
 
     def github_signature
-      @github_signature ||= GithubSignature.new(
-        payload: event_params,
-        signature: http_x_hub_signature,
-        secret_token: "valid" # FIXME: move to config
-      )
+      @github_signature ||= GithubSignature.from_request(request)
     end
   end
 end
