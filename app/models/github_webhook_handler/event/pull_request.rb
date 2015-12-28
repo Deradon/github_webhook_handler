@@ -1,13 +1,13 @@
-# = PullRequestEvent
-#
-# Triggered when a pull request is assigned, unassigned, labeled, unlabeled,
-# opened, closed, reopened, or synchronized.
-#
-# == Links
-#
-# * https://developer.github.com/v3/activity/events/types/#pullrequestevent
 module GithubWebhookHandler
   module Event
+    # = PullRequestEvent
+    #
+    # Triggered when a pull request is assigned, unassigned, labeled, unlabeled,
+    # opened, closed, reopened, or synchronized.
+    #
+    # == Links
+    #
+    # * https://developer.github.com/v3/activity/events/types/#pullrequestevent
     class PullRequest < Base
       webhook_event_name :pull_request
 
@@ -22,6 +22,9 @@ module GithubWebhookHandler
         synchronize
       )
 
+      ##
+      # :method: action
+      #
       # The action that was performed.
       #
       # Can be one of "assigned", "unassigned", "labeled", "unlabeled",
@@ -34,9 +37,15 @@ module GithubWebhookHandler
       # the pull request was merged.
       actions(*ACTIONS)
 
+      ##
+      # :method: number
+      #
       # The pull request number.
       payload :number
 
+      ##
+      # :method: pull_request
+      #
       # The pull request itself.
       payload :pull_request
     end

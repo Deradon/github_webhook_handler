@@ -1,5 +1,5 @@
 module GithubWebhookHandler
-  class Engine < ::Rails::Engine
+  class Engine < ::Rails::Engine #:nodoc:
     isolate_namespace GithubWebhookHandler
 
     config.generators do |g|
