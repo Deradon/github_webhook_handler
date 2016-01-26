@@ -8,6 +8,8 @@ module GithubWebhookHandler
     # == Links
     #
     # * https://developer.github.com/v3/activity/events/types/#issuesevent
+    #
+    # FIXME: Rename class to `Issues`
     class Issue < Base
       webhook_event_name :issues
 
