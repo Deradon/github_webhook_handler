@@ -11,6 +11,15 @@ RSpec.describe GithubWebhookHandler do
     end
   end
 
+  describe ".on" do
+    after { subject.handle(event) }
+    let(:event) { instance_double(GithubWebhookHandler::Event::Base) }
+
+    specify do
+      expect(subject.listeners).to receive(:handle).with(event)
+    end
+  end
+
   describe ".listeners" do
     subject { described_class.listeners }
 

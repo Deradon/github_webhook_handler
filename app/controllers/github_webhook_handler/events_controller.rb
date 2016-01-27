@@ -17,6 +17,10 @@ module GithubWebhookHandler
 
       respond_to do |format|
         if @event.save
+
+          # TODO: spec
+          ProcessEventJob.perform_later(@event)
+
           format.json { render json: @event, status: :created }
         else
           format.json { render json: @event.errors, status: :unprocessable_entity }

@@ -6,6 +6,10 @@ module GithubWebhookHandler #:nodoc:
     listeners.push(event_type, &block)
   end
 
+  def self.handle(event)
+    listeners.handle(event)
+  end
+
   def self.listeners
     @listeners ||= Listeners.new
   end
