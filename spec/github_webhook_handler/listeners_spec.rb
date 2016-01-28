@@ -22,6 +22,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
 
       it "raises an ArgumentError" do
         pending
+        fail
       end
     end
   end
