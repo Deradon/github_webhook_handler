@@ -3,10 +3,10 @@ class GithubSignature
   HMAC_DIGEST = OpenSSL::Digest::Digest.new('sha1')
 
   class << self
-    def from_request(request)
+    def from_request(request, secret:)
       new(
         payload_body: payload_from_request(request),
-        secret: "valid", # TODO: move to config
+        secret: secret,
         signature: request.headers["HTTP_X_HUB_SIGNATURE"]
       )
     end

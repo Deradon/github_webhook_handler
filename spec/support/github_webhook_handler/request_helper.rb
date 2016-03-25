@@ -10,8 +10,8 @@ module GithubWebhookHandler
 
     private
 
-    def signature_for(payload)
-      hexdigest = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), "valid" , payload.to_json)
+    def signature_for(payload, secret:)
+      hexdigest = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), secret, payload.to_json)
 
       "sha1=#{hexdigest}"
     end
@@ -21,13 +21,20 @@ module GithubWebhookHandler
         subject { response }
         before { call_endpoint }
 
+        around do |example|
+          secret = GithubWebhookHandler.config.github_secret
+          GithubWebhookHandler.config.github_secret = "geheim"
+          example.run
+          GithubWebhookHandler.config.github_secret = secret
+        end
+
         let(:endpoint) { "/github_webhook_handler/events" }
         let(:params) { {} }
         let(:header) { valid_header }
         let(:valid_header) {
           {
             "HTTP_X_GITHUB_EVENT" => "issues",
-            "HTTP_X_HUB_SIGNATURE" => signature_for(params),
+            "HTTP_X_HUB_SIGNATURE" => signature_for(params, secret: "geheim"),
           }.merge(json_header)
         }
         let(:json_header) {
