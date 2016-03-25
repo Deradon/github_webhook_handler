@@ -25,10 +25,6 @@ class GithubSignature
     @signature = signature.to_s
   end
 
-  def self.valid?(*args)
-    new(*args).valid?
-  end
-
   def valid?
     Rack::Utils.secure_compare(expected_signature, signature)
   end
