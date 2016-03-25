@@ -25,7 +25,9 @@ module GithubWebhookHandler
     def listeners_for(event_type, action_type)
       event_listeners = listeners[event_type.to_sym]
 
-      event_listeners[:any] | event_listeners[action_type.to_sym]
+      listeners[:any][:any] |
+        event_listeners[:any] |
+        event_listeners[action_type.to_sym]
     end
   end
 end

@@ -16,6 +16,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
       def bar; end
       def baz; end
       def fourty_two; end
+      def any_callback; end
     end
   end
 
@@ -34,6 +35,10 @@ RSpec.describe GithubWebhookHandler::Listeners do
     after { listeners.handle(event) }
 
     before do
+      listeners.push(:any, :any) do |event|
+        test_context.any_callback
+      end
+
       listeners.push(:issues, :any) do |event|
         test_context.foo
       end
@@ -55,6 +60,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
       let(:event) { push_event }
 
       specify do
+        expect(test_context).to receive(:any_callback)
         expect(test_context).not_to receive(:foo)
         expect(test_context).not_to receive(:bar)
         expect(test_context).not_to receive(:baz)
@@ -66,6 +72,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
       let(:event) { pull_request_event }
 
       specify do
+        expect(test_context).to receive(:any_callback)
         expect(test_context).not_to receive(:foo)
         expect(test_context).not_to receive(:bar)
         expect(test_context).to receive(:baz)
@@ -77,6 +84,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
       let(:event) { issue_event }
 
       specify do
+        expect(test_context).to receive(:any_callback)
         expect(test_context).to receive(:foo)
         expect(test_context).to receive(:bar)
         expect(test_context).not_to receive(:baz)
