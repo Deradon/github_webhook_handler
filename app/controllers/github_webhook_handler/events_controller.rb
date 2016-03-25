@@ -51,7 +51,11 @@ module GithubWebhookHandler
     end
 
     def github_signature
-      @github_signature ||= GithubSignature.from_request(request)
+      @github_signature ||= GithubSignature.from_request(request, secret: config.github_secret)
+    end
+
+    def config
+      @config ||= GithubWebhookHandler.config
     end
   end
 end

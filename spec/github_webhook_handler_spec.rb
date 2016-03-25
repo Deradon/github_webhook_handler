@@ -41,4 +41,14 @@ RSpec.describe GithubWebhookHandler do
       it { is_expected.to be(another_listeners) }
     end
   end
+
+
+  describe ".config" do
+    subject { described_class.config }
+
+    it { is_expected.to be_kind_of(GithubWebhookHandler::Config) }
+    it "memoizes the Configuration" do
+      expect(subject).to eq(described_class.config)
+    end
+  end
 end
