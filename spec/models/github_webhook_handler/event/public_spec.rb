@@ -19,7 +19,7 @@ module GithubWebhookHandler
     it { is_expected.to be_valid }
 
     its(:payload) { is_expected.to eq(payload) }
-    its(:action) { is_expected.to eq(nil) }
+    its(:action) { is_expected.to eq(:not_specified) }
 
     describe ".webhook_event_name" do
       subject { described_class.webhook_event_name }

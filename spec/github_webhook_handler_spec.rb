@@ -1,17 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe GithubWebhookHandler do
+  # TODO: Expect proc in specs
   describe ".on" do
     let(:context) { Proc.new { 42 } }
-    after { subject.on(:issues, &context) }
 
-    specify do
-      expect(subject.listeners).to receive(:push).with(:issues)
-      # TODO: .with(:issues, context)
+    context "when given only a event type" do
+      after { subject.on(:issues, &context) }
+
+      specify do
+        expect(subject.listeners).to receive(:push).with(:issues, :any)
+      end
+    end
+
+    context "when given a event type and an action" do
+      after { subject.on(:issues, :labeled, &context) }
+
+      specify do
+        expect(subject.listeners).to receive(:push).with(:issues, :labeled)
+      end
     end
   end
 
-  describe ".on" do
+  describe ".handle" do
     after { subject.handle(event) }
     let(:event) { instance_double(GithubWebhookHandler::Event::Base) }
 

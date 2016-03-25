@@ -19,7 +19,7 @@ module GithubWebhookHandler
     it { is_expected.to be_valid }
 
     its(:payload) { is_expected.to eq(payload) }
-    its(:action) { is_expected.to eq(nil) }
+    its(:action) { is_expected.to eq(:not_specified) }
 
     its(:ref_type) { is_expected.to eq("tag") }
     its(:ref) { is_expected.to eq("simple-tag") }

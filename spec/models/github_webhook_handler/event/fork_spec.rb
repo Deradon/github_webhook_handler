@@ -19,7 +19,7 @@ module GithubWebhookHandler
     it { is_expected.to be_valid }
 
     its(:payload) { is_expected.to eq(payload) }
-    its(:action) { is_expected.to eq(nil) }
+    its(:action) { is_expected.to eq(:not_specified) }
 
     its(:forkee) { is_expected.to be_a(Hash) }
 
