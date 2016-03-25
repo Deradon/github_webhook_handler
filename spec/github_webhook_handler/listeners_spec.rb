@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe GithubWebhookHandler::Listeners do
   subject(:listeners) { described_class.new }
 
-  let(:issue_event) { GithubWebhookHandler::Event::Issue.new }
+  let(:issue_event) {
+    GithubWebhookHandler::Event::Issue.new(payload: { "action" => "labeled" })
+  }
   let(:pull_request_event) { GithubWebhookHandler::Event::PullRequest.new }
   let(:push_event) { GithubWebhookHandler::Event::Push.new }
 
@@ -13,6 +15,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
       def foo; end
       def bar; end
       def baz; end
+      def fourty_two; end
     end
   end
 
@@ -31,15 +34,19 @@ RSpec.describe GithubWebhookHandler::Listeners do
     after { listeners.handle(event) }
 
     before do
-      listeners.push(:issues) do |event|
+      listeners.push(:issues, :any) do |event|
         test_context.foo
       end
 
-      listeners.push(:issues) do |event|
+      listeners.push(:issues, :any) do |event|
         test_context.bar
       end
 
-      listeners.push(:pull_request) do |event|
+      listeners.push(:issues, :labeled) do |event|
+        test_context.fourty_two
+      end
+
+      listeners.push(:pull_request, :any) do |event|
         test_context.baz
       end
     end
@@ -51,6 +58,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
         expect(test_context).not_to receive(:foo)
         expect(test_context).not_to receive(:bar)
         expect(test_context).not_to receive(:baz)
+        expect(test_context).not_to receive(:fourty_two)
       end
     end
 
@@ -61,6 +69,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
         expect(test_context).not_to receive(:foo)
         expect(test_context).not_to receive(:bar)
         expect(test_context).to receive(:baz)
+        expect(test_context).not_to receive(:fourty_two)
       end
     end
 
@@ -71,6 +80,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
         expect(test_context).to receive(:foo)
         expect(test_context).to receive(:bar)
         expect(test_context).not_to receive(:baz)
+        expect(test_context).to receive(:fourty_two)
       end
     end
   end

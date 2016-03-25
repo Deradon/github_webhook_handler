@@ -7,7 +7,7 @@ module GithubWebhookHandler
       serialize :payload
 
       def action
-        payload["action"]
+        (payload || {})["action"] || :not_specified
       end
 
       private
