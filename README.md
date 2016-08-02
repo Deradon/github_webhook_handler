@@ -1,5 +1,7 @@
 _WIP_
 
+[![Build Status](https://travis-ci.org/Deradon/github_webhook_handler.svg?branch=master)](https://travis-ci.org/Deradon/github_webhook_handler)
+
 # GitHubWebhookHandler
 
 `github_webhook_handler` is a Rails engine that handle GitHub webhooks.
