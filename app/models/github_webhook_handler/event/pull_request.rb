@@ -48,6 +48,12 @@ module GithubWebhookHandler
       #
       # The pull request itself.
       payload :pull_request
+
+      ##
+      # :method: label
+      #
+      # The optional label that was added or removed from the issue.
+      payload :label
     end
   end
 end
