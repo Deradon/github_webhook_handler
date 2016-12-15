@@ -13,7 +13,8 @@ module GithubWebhookHandler
       end
     end
 
-    it_behaves_like "a event", "issues", Event::Issue
+    it_behaves_like "a event", "issues", Event::Issues
+    it_behaves_like "a event", "pull_request", Event::PullRequest
     it_behaves_like "a event", "foo", Event::Unknown
   end
 end

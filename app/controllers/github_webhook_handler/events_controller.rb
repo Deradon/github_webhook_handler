@@ -7,24 +7,22 @@ module GithubWebhookHandler
     before_action :ensure_valid_github_signature
 
     # POST /events.json
-    #
-    # TODO: Only respond to :json
     def create
-      @event = Event.class_for(http_x_github_event).new({
-        payload: event_params,
-        http_x_github_event: http_x_github_event
-      })
+      @event = Event.
+        class_for(http_x_github_event).
+        new(
+          payload: event_params,
+          http_x_github_event: http_x_github_event
+        )
 
-      respond_to do |format|
-        if @event.save
+      if @event.save
 
-          # TODO: spec
-          ProcessEventJob.perform_later(@event)
+        # TODO: spec
+        ProcessEventJob.perform_later(@event)
 
-          format.json { render json: @event, status: :created }
-        else
-          format.json { render json: @event.errors, status: :unprocessable_entity }
-        end
+        render json: @event, status: :created
+      else
+        render json: @event.errors, status: :unprocessable_entity
       end
     end
 

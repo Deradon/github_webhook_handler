@@ -4,7 +4,7 @@ RSpec.describe GithubWebhookHandler::Listeners do
   subject(:listeners) { described_class.new }
 
   let(:issue_event) {
-    GithubWebhookHandler::Event::Issue.new(payload: { "action" => "labeled" })
+    GithubWebhookHandler::Event::Issues.new(payload: {"action" => "labeled" })
   }
   let(:pull_request_event) { GithubWebhookHandler::Event::PullRequest.new }
   let(:push_event) { GithubWebhookHandler::Event::Push.new }

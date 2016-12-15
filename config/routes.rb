@@ -1,3 +1,3 @@
 GithubWebhookHandler::Engine.routes.draw do
-  resources :events, only: [:create]
+  resources :events, only: [:create], constraints: {format: 'json'}
 end

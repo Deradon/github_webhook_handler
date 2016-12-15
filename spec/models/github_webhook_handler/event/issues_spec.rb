@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'json'
 
 module GithubWebhookHandler
-  RSpec.describe GithubWebhookHandler::Event::Issue, type: :model do
+  RSpec.describe GithubWebhookHandler::Event::Issues, type: :model do
     subject { described_class.new(payload: payload) }
 
     let(:payload) { JSON.parse(File.read(json_path)) }

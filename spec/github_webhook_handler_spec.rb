@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GithubWebhookHandler do
-  # TODO: Expect proc in specs
   describe ".on" do
     let(:context) { Proc.new { 42 } }
 
