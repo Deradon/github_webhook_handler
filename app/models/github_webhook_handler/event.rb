@@ -6,11 +6,9 @@ module GithubWebhookHandler
     def self.class_for(type)
       class_name = "GithubWebhookHandler::Event::#{type.camelize}"
 
-      if const_defined?(class_name)
-        class_name.constantize
-      else
-        GithubWebhookHandler::Event::Unknown
-      end
+      class_name.constantize
+    rescue
+      GithubWebhookHandler::Event::Unknown
     end
   end
 end
