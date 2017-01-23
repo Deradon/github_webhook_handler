@@ -11,12 +11,11 @@ module GithubWebhookHandler
       @event = Event.
         class_for(http_x_github_event).
         new(
-          payload: event_params,
+          payload: payload,
           http_x_github_event: http_x_github_event
         )
 
       if @event.save
-
         # TODO: spec
         ProcessEventJob.perform_later(@event)
 
@@ -28,8 +27,8 @@ module GithubWebhookHandler
 
   private
 
-    def event_params
-      request.request_parameters
+    def payload
+      JSON.parse(request.request_parameters["payload"])
     end
 
     def ensure_github_event
